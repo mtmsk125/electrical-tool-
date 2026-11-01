@@ -1,0 +1,9 @@
+<!DOCTYPE html><html lang="en" dir="ltr"><head><meta charset="UTF-8"><title>Tests</title>
+<style>body{font:15px/1.6 system-ui;max-width:720px;margin:24px auto;padding:0 16px}.p{color:#1b7f4b}.f{color:#b3261e;font-weight:700}h1{font-size:1.2rem}</style></head>
+<body><h1 id="s">Running…</h1><ul id="l"></ul>
+<script type="module">
+import {tests} from './js/tests.js';
+let bad=0;
+for(const [n,fn] of tests){const li=document.createElement('li');try{fn();li.className='p';li.textContent='✔ '+n}catch(e){bad++;li.className='f';li.textContent='✘ '+n+' — '+e.message}document.getElementById('l').append(li)}
+document.getElementById('s').textContent=bad?bad+' of '+tests.length+' failed':'All '+tests.length+' tests passed';
+</script></body></html>
