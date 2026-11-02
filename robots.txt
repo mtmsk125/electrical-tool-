@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /tests.html
+Sitemap: https://electrical-tool-mu.vercel.app/sitemap.xml
