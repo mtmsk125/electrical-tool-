@@ -3,7 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="أدوات هندسية مجانية بالعربية: حساب مقطع الكابل وسقوط الفولتية وتيار القصر، ترقيم الأجهزة، جدول الكابلات، وحاسبات للتمديدات والتيار الخفيف.">
+<link rel="canonical" href="https://YOUR-DOMAIN.com/">
+<meta property="og:type" content="website"><meta property="og:locale" content="ar_AR"><meta property="og:title" content="الترقيم وحسابات الكابلات"><meta property="og:description" content="أدوات حساب وترقيم للمهندسين والفنيين، تعمل بدون إنترنت."><meta property="og:url" content="https://YOUR-DOMAIN.com/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230b3a5b'/%3E%3Cpath d='M36 8 18 36h12l-4 20 20-30H34z' fill='%23e8a317'/%3E%3C/svg%3E">
 <link rel="manifest" href="manifest.json"><meta name="theme-color" content="#0b3a5b">
+<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)}</script>
+<script defer src="/_vercel/insights/script.js"></script>
+
 <title>الترقيم وحسابات الكابلات</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;600;700&display=swap">
 <style>
@@ -15,7 +22,7 @@ body{font-family:'IBM Plex Sans Arabic','Segoe UI',Tahoma,sans-serif;background:
 header{padding:18px 4px 6px}
 header h1{font-size:1.5rem;color:var(--brand)}
 header p{color:var(--muted);font-size:.92rem}
-.tabs{display:flex;gap:0;margin:14px 0 0;border-bottom:2px solid var(--line)}
+.tabs{display:flex;flex-wrap:wrap;gap:0;margin:14px 0 0;border-bottom:2px solid var(--line)}
 .tabs button{background:none;border:none;padding:12px 20px;font:600 1rem inherit;font-family:inherit;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px}
 .tabs button[aria-selected=true]{color:var(--brand);border-bottom-color:var(--accent)}
 .panel{display:none;background:var(--surface);border:1px solid var(--line);border-top:none;padding:22px;border-radius:0 0 10px 10px}
@@ -46,7 +53,11 @@ th{color:var(--muted);font-weight:600;font-size:.82rem}
 #toast span.on{opacity:1}
 .err{border-color:var(--bad)!important}
 footer{text-align:center;color:var(--muted);font-size:.8rem;margin:22px 0}
-@media print{.tabs,.row,header p,footer,#toast,button,.panel:not(.on){display:none!important}body{background:#fff;color:#000;padding:0}.panel{border:none}}
+.ad{margin:18px 0;min-height:90px;text-align:center}
+#cb{position:fixed;inset-inline:0;bottom:0;background:var(--surface);border-top:2px solid var(--accent);padding:12px 16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;z-index:9;font-size:.9rem}
+#cb[hidden],.ad[hidden]{display:none}
+footer a{color:var(--brand);margin:0 8px}
+@media print{.ad,#cb,.tabs,.row,header p,footer,#toast,button,.panel:not(.on){display:none!important}body{background:#fff;color:#000;padding:0}.panel{border:none}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -58,6 +69,8 @@ footer{text-align:center;color:var(--muted);font-size:.8rem;margin:22px 0}
   <button role="tab" aria-selected="true" data-tab="numbering">ترقيم الأجهزة</button>
   <button role="tab" aria-selected="false" data-tab="cable">حساب الكابلات</button>
   <button role="tab" aria-selected="false" data-tab="loads">جدول الأحمال</button>
+  <button role="tab" aria-selected="false" data-tab="sched">جدول الكابلات</button>
+  <button role="tab" aria-selected="false" data-tab="tools">الأدوات</button>
 </div>
 
 <section id="numbering" class="panel on" role="tabpanel">
@@ -130,11 +143,46 @@ footer{text-align:center;color:var(--muted);font-size:.8rem;margin:22px 0}
   <div id="lsum" style="margin-top:14px"></div>
 </section>
 
-<footer>أداة حسابات أولية — تُراجع من مهندس كهربائي معتمد قبل التنفيذ</footer>
+<section id="sched" class="panel" role="tabpanel">
+  <p class="note" style="margin:0 0 10px">أدخل كل كابل بخصائصه، ويُحسب مقطعه وقاطعه تلقائياً بالإعدادات المشتركة. الجهد 230 للأحادي و400 للثلاثي.</p>
+  <div class="grid">
+    <div><label for="sPf">معامل القدرة</label><input id="sPf" type="number" value="0.9" step="0.01"></div>
+    <div><label for="sDrop">أقصى سقوط (%)</label><input id="sDrop" type="number" value="3" step="0.1"></div>
+    <div><label for="sMat">المادة</label><select id="sMat"><option value="Cu">نحاس</option><option value="Al">ألمنيوم</option></select></div>
+    <div><label for="sIns">العزل</label><select id="sIns"><option value="PVC">PVC</option><option value="XLPE">XLPE</option></select></div>
+    <div><label for="sMeth">التمديد</label><select id="sMeth"><option value="B1">مجرى (B1)</option><option value="C">صينية (C)</option></select></div>
+    <div><label for="sAmb">حرارة المحيط</label><input id="sAmb" type="number" value="35"></div>
+    <div><label for="sIsc">تيار القصر (kA)</label><input id="sIsc" type="number" value="6" step="0.1"></div>
+    <div><label for="sTt">زمن الفصل (ث)</label><input id="sTt" type="number" value="0.1" step="0.01"></div>
+  </div>
+  <div class="grid">
+    <div><label for="sTag">رقم الكابل (اختياري)</label><input id="sTag" placeholder="C-001"></div>
+    <div><label for="sFrom">من (جهاز/لوحة)</label><input id="sFrom" list="codes"></div>
+    <div><label for="sTo">إلى</label><input id="sTo" list="codes"></div>
+    <div><label for="sPh">النوع</label><select id="sPh"><option value="1">أحادي</option><option value="3">ثلاثي</option></select></div>
+    <div><label for="sI">التيار (أمبير)</label><input id="sI" type="number" step="0.1"></div>
+    <div><label for="sL">الطول (م)</label><input id="sL" type="number"></div>
+  </div>
+  <datalist id="codes"></datalist>
+  <div class="row"><button class="b p" id="sAdd">إضافة كابل</button><button class="b" id="sCsv">تصدير CSV</button><button class="b d" id="sClr">مسح الجدول</button></div>
+  <div class="scroll"><table><thead><tr><th>الكابل</th><th>من</th><th>إلى</th><th>النوع</th><th>التيار</th><th>الطول</th><th>المقطع</th><th>القاطع</th><th>السقوط</th><th></th></tr></thead><tbody id="stb"></tbody></table></div>
+</section>
+
+<section id="tools" class="panel" role="tabpanel">
+  <div class="grid"><div style="grid-column:1/-1"><label for="tsel">اختر الأداة</label><select id="tsel"></select></div></div>
+  <div id="tf" class="grid"></div>
+  <div class="row"><button class="b p" id="tcalc">احسب</button><button class="b" onclick="window.print()">طباعة / حفظ PDF</button></div>
+  <div id="tr"></div><p class="note" id="tn"></p>
+</section>
+
+<div id="adbox" class="ad" hidden aria-label="إعلان"></div>
+<footer>أداة حسابات أولية — تُراجع من مهندس كهربائي معتمد قبل التنفيذ<br><a href="about.html">عن الأداة والمنهجية</a><a href="privacy.html">سياسة الخصوصية</a><a href="contact.html">اتصل بنا</a></footer>
+<div id="cb" hidden><span>نستخدم ملفات تعريف الارتباط لعرض إعلانات مخصصة. يمكنك القبول أو الرفض، والأدوات تعمل في الحالتين.</span><button class="b p" id="cbY">قبول</button><button class="b" id="cbN">رفض</button></div>
 </div>
 <div id="toast"><span></span></div>
 
 <script type="module">
+import {TOOLS} from './js/tools.js';
 import {SIZES,AL_FACTOR,fill,nextSeq,cableCheck} from './js/calc.js';
 import {t,tf,getLang,setLang} from './js/i18n.js';
 const $=id=>document.getElementById(id);
@@ -145,6 +193,7 @@ function mk(tag,txt,cls){const e=document.createElement(tag);if(txt!=null)e.text
 document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{
   document.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-selected',x===b));
   document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('on',p.id===b.dataset.tab));
+  if(b.dataset.tab==='sched')fillCodes();
 });
 
 /* ===== Numbering ===== */
@@ -240,6 +289,74 @@ $('calc').onclick=()=>{
   f.style.padding='0 18px 14px';out.append(f);
 };
 
+
+/* ===== Cable schedule ===== */
+const SK='elec-tool-sched-v1';let sched=[];
+try{sched=JSON.parse(localStorage.getItem(SK)||'[]')}catch(e){}
+const ssave=()=>{try{localStorage.setItem(SK,JSON.stringify(sched))}catch(e){}};
+const sv=id=>parseFloat($(id).value);
+function fillCodes(){$('codes').replaceChildren(...rows.map(r=>{const o=document.createElement('option');o.value=r.code;return o}))}
+function sres(r){
+  const c=cableCheck({ph:r.ph,I:r.I,V:r.ph===3?400:230,L:r.L,pf:sv('sPf')||.9,mx:sv('sDrop')||3,mat:$('sMat').value,ins:$('sIns').value,meth:$('sMeth').value,amb:sv('sAmb')||30,g:1,isc:sv('sIsc')||1,tt:sv('sTt')||.1});
+  return {s:c.pick?c.pick.s:null,In:c.In,dp:c.pick?c.pick.dp:null};
+}
+function renderSched(){
+  const tb=$('stb');tb.replaceChildren();
+  if(!sched.length){const tr=mk('tr'),td=mk('td','لا توجد كابلات بعد. أدخل البيانات أعلاه.','empty');td.colSpan=10;tr.append(td);tb.append(tr);return}
+  sched.forEach((r,i)=>{
+    const x=sres(r),tr=mk('tr'),d=mk('button','حذف','b d'),c=mk('td');
+    d.onclick=()=>{sched.splice(i,1);ssave();renderSched()};c.append(d);
+    tr.append(mk('td',r.tag,'code'),mk('td',r.from),mk('td',r.to),mk('td',r.ph===3?'3Φ':'1Φ'),mk('td',r.I+' A'),mk('td',r.L+' m'),mk('td',x.s?x.s+' mm²':'✘'),mk('td',x.In?x.In+' A':'—'),mk('td',x.dp==null?'—':x.dp.toFixed(2)+'%'),c);
+    tb.append(tr);
+  });
+}
+$('sAdd').onclick=()=>{
+  const I=sv('sI'),L=sv('sL');
+  ['sI','sL'].forEach(id=>$(id).classList.toggle('err',!(sv(id)>0)));
+  if(!(I>0&&L>0))return toast('أدخل التيار والطول');
+  const tag=$('sTag').value.trim()||'C-'+String(sched.length+1).padStart(3,'0');
+  sched.push({tag,from:$('sFrom').value.trim(),to:$('sTo').value.trim(),ph:+$('sPh').value,I,L});
+  ssave();renderSched();['sTag','sFrom','sTo','sI','sL'].forEach(id=>$(id).value='');
+};
+['sPf','sDrop','sMat','sIns','sMeth','sAmb','sIsc','sTt'].forEach(id=>$(id).oninput=renderSched);
+$('sClr').onclick=()=>{if(sched.length&&confirm(t('مسح الجدول؟'))){sched=[];ssave();renderSched()}};
+$('sCsv').onclick=()=>{
+  if(!sched.length)return toast('لا توجد كابلات');
+  const q=v=>'"'+String(v).replace(/"/g,'""')+'"';
+  const lines=sched.map(r=>{const x=sres(r);return [r.tag,r.from,r.to,r.ph,r.I,r.L,x.s||'',x.In||'',x.dp==null?'':x.dp.toFixed(2)].map(q).join(',')});
+  const txt='\uFEFF'+['الكابل,من,إلى,الطور,التيار,الطول,المقطع,القاطع,السقوط%',...lines].join('\r\n');
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([txt],{type:'text/csv;charset=utf-8'}));a.download='cable-schedule.csv';a.click();URL.revokeObjectURL(a.href);
+};
+renderSched();
+
+/* ===== Tools ===== */
+const tsel=$('tsel');
+[...new Set(TOOLS.map(x=>x.g))].forEach(g=>{const og=document.createElement('optgroup');og.label=g;TOOLS.filter(x=>x.g===g).forEach(x=>{const o=mk('option',x.n);o.value=x.id;og.append(o)});tsel.append(og)});
+const curTool=()=>TOOLS.find(x=>x.id===tsel.value);
+function toolUI(){
+  const T=curTool(),box=$('tf');box.replaceChildren();$('tr').replaceChildren();$('tn').textContent='';
+  $('tcalc').hidden=!!T.L;
+  if(T.L){T.L.forEach(x=>{const l=document.createElement('label'),c=document.createElement('input');l.style.cssText='font-weight:400;color:var(--ink)';c.type='checkbox';c.style.cssText='width:auto;margin-inline-end:8px';l.append(c,x);box.append(l)});box.className='';return}
+  box.className='grid';
+  (T.F||[]).forEach(F=>{
+    const d=document.createElement('div');d.append(mk('label',F.label));let i;
+    if(F.o){i=document.createElement('select');F.o.forEach(([v,l])=>{const o=mk('option',l);o.value=v;i.append(o)});i.value=F.v}
+    else{i=document.createElement('input');i.type='number';i.step=F.step||'any';i.value=F.v}
+    i.id='tf_'+F.id;d.append(i);box.append(d);
+  });
+}
+tsel.onchange=toolUI;
+$('tcalc').onclick=()=>{
+  const T=curTool(),v={};let bad=false;
+  (T.F||[]).forEach(F=>{const e=$('tf_'+F.id),x=F.str?e.value:parseFloat(e.value);v[F.id]=x;const ok=F.o||(isFinite(x)&&(F.z?x>=0:x>0));e.classList.toggle('err',!ok);if(!ok)bad=true});
+  const out=$('tr');out.replaceChildren();
+  if(bad)return toast('تحقق من الحقول المحددة');
+  const tb=mk('table'),b=mk('tbody');
+  T.R(v,rows).forEach(([a,c])=>{const tr=mk('tr');tr.append(mk('td',a),mk('td',c,'code'));b.append(tr)});
+  tb.append(b);out.append(tb);$('tn').textContent=T.N?t(T.N):'';
+};
+toolUI();
+
 /* Import */
 $('imp').onclick=()=>$('impf').click();
 $('impf').onchange=e=>{const f=e.target.files[0];if(!f)return;f.text().then(t=>{const used=new Set(rows.map(r=>r.code));let n=0;
@@ -267,6 +384,21 @@ $('ladd').onclick=()=>{const w=parseFloat($('lw').value),n=$('ln').value.trim();
   loads.push({n,w,p:$('lp').value});lsave();renderLoads();$('ln').value='';$('lw').value=''};
 $('lclr').onclick=()=>{if(loads.length&&confirm(t('مسح كل الدوائر؟'))){loads=[];lsave();renderLoads()}};
 $('ldf').oninput=renderLoads;renderLoads();
+
+/* ===== Ads (يُفعَّل بعد وضع معرّف AdSense) ===== */
+const ADS={client:'',slot:''}; // مثال: client:'ca-pub-1234567890123456', slot:'1234567890'
+function loadAds(){
+  if(!ADS.client||document.getElementById('adj'))return;
+  const sc=document.createElement('script');sc.id='adj';sc.async=true;sc.crossOrigin='anonymous';
+  sc.src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client='+ADS.client;document.head.append(sc);
+  const ins=document.createElement('ins');ins.className='adsbygoogle';ins.style.display='block';
+  ins.dataset.adClient=ADS.client;ins.dataset.adSlot=ADS.slot;ins.dataset.adFormat='auto';ins.dataset.fullWidthResponsive='true';
+  $('adbox').append(ins);$('adbox').hidden=false;(window.adsbygoogle=window.adsbygoogle||[]).push({});
+}
+let consent=null;try{consent=localStorage.getItem('consent')}catch(e){}
+if(consent==='1')loadAds();else if(consent===null&&ADS.client)$('cb').hidden=false;
+$('cbY').onclick=()=>{try{localStorage.setItem('consent','1')}catch(e){}$('cb').hidden=true;loadAds()};
+$('cbN').onclick=()=>{try{localStorage.setItem('consent','0')}catch(e){}$('cb').hidden=true};
 const lb=()=>$('lang').textContent=getLang()==='en'?'عربي':'EN';
 setLang(getLang());lb();
 $('lang').onclick=()=>{setLang(getLang()==='en'?'ar':'en');lb();render();renderLoads();$('res').classList.remove('on')};

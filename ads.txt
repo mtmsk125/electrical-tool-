@@ -1,0 +1,2 @@
+# استبدل الرقم بمعرّف الناشر من حسابك في AdSense (بعد قبول الموقع)
+google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0

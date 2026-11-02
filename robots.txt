@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /tests.html
+Sitemap: https://YOUR-DOMAIN.com/sitemap.xml
