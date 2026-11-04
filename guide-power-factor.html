@@ -1,0 +1,15 @@
+<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>تحسين معامل القدرة وحساب المكثفات — الترقيم وحسابات الكابلات</title>
+<meta name="description" content="معادلة قدرة المكثفات اللازمة لرفع معامل القدرة، مع مثال محلول بالكيلوفار."><link rel="canonical" href="https://electrical-tool-mu.vercel.app/guide-power-factor.html"><meta property="og:type" content="article"><meta property="og:locale" content="ar_AR"><meta property="og:title" content="تحسين معامل القدرة وحساب المكثفات"><meta property="og:description" content="معادلة قدرة المكثفات اللازمة لرفع معامل القدرة، مع مثال محلول بالكيلوفار."><meta property="og:url" content="https://electrical-tool-mu.vercel.app/guide-power-factor.html">
+<style>:root{--bg:#f3f5f7;--s:#fff;--ink:#16212c;--m:#5d6b78;--b:#0b3a5b;--a:#e8a317}@media(prefers-color-scheme:dark){:root{--bg:#0f1720;--s:#17222d;--ink:#e6edf3;--m:#93a1ae;--b:#6fb3e0}}
+body{font:16px/1.9 'IBM Plex Sans Arabic','Segoe UI',Tahoma,sans-serif;background:var(--bg);color:var(--ink);margin:0;padding:16px}main{max-width:780px;margin:0 auto;background:var(--s);padding:24px;border-radius:10px}
+h1{color:var(--b);font-size:1.5rem;line-height:1.4}h2{color:var(--b);font-size:1.15rem;margin-top:26px}a{color:var(--b)}li{margin:6px 0}.m{color:var(--m);font-size:.85rem}
+pre{direction:ltr;text-align:left;background:var(--bg);padding:12px 14px;border-radius:8px;overflow-x:auto;font-size:.95rem;line-height:1.7}
+.cta{display:inline-block;background:var(--b);color:var(--s);padding:10px 20px;border-radius:8px;text-decoration:none;font-weight:700;margin:10px 0}.box{border-right:4px solid var(--a);background:var(--bg);padding:10px 14px;border-radius:6px}</style></head><body><main><p><a href="guides.html">← كل الأدلة</a> · <a href="index.html">الأدوات</a></p><h1>تحسين معامل القدرة وحساب المكثفات</h1><p>معامل القدرة المنخفض يرفع التيار المسحوب لنفس القدرة الفعالة. تحسينه بالمكثفات يقلل التيار والفقد، وبعض شركات الكهرباء تفرض غرامة عند انخفاضه، فراجع شروط مزوّدك.</p>
+<h2>المعادلة</h2><pre>Qc = P · ( tan φ1 − tan φ2 )
+
+P بالكيلوواط، Qc بالكيلوفار (kVAr)
+φ1 الزاوية الحالية، φ2 الزاوية المطلوبة</pre>
+<h2>مثال محلول</h2><p>حمل 100 كيلوواط بمعامل قدرة 0.8 ونريد رفعه إلى 0.95:</p>
+<ol><li>tan(acos 0.8) = 0.75، و tan(acos 0.95) ≈ 0.329.</li><li>Qc = 100 × (0.75 − 0.329) ≈ <b>42.1 كيلوفار</b>.</li></ol>
+<ul><li>تُختار مكثفات بخطوات قياسية، وتُراجع التوافقيات في الأحمال غير الخطية قبل التركيب.</li></ul><p><a class="cta" href="index.html#tool-pfc">جرّب أداة المكثفات</a></p><h2>أدلة ذات صلة</h2><ul><li><a href="guide-load-current.html">حساب تيار الحمل من القدرة</a></li></ul>
+<p class="box m">تنبيه: هذه حسابات أولية للتوضيح والتقدير. تُراجع على الكود المعتمد في مشروعك ومن مهندس كهربائي مرخّص قبل التنفيذ. <a href="about.html">المنهجية وحدودها</a>.</p><p class="m">آخر تحديث: 4 نوفمبر 2026</p></main></body></html>
