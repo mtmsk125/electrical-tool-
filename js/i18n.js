@@ -57,7 +57,11 @@ Object.assign(EN,{
 'إحكام ربط الأطراف':'Terminals tightened','فحص مقاومة العزل (ميجر)':'Insulation resistance test (megger)','قياس مقاومة التأريض':'Earth resistance measurement','اختبار القواطع التفاضلية':'RCD test','ترقيم الدوائر على اللوحة':'Circuits labelled on the panel','توازن الأحمال بين الأطوار':'Loads balanced across phases','وضوح المخطط الأحادي داخل اللوحة':'Single-line diagram clear inside the panel',
 'إنارة الطابق 1':'Floor 1 lighting',
 'ادعم الموقع':'Support the site','وفّرت عليك وقتاً؟':'Did this save you time?','ادعم استمرار الموقع':'Support the site’s upkeep','(اختياري، ولا يغيّر شيئاً في الأدوات)':'(optional — nothing in the tools changes)',
-'إعدادات متقدمة':'Advanced settings','الإعدادات المشتركة':'Shared settings'
+'إعدادات متقدمة':'Advanced settings','الإعدادات المشتركة':'Shared settings',
+'تيار القصر عند اللوحة من المحول':'Panel fault current from transformer','مقاومة قضيب التأريض':'Earth rod resistance','قدرة المحول (kVA)':'Transformer rating (kVA)','جهد الثانوي (فولت)':'Secondary voltage (V)','معاوقة المحول uk (%)':'Transformer impedance uk (%)','مقاومية التربة (أوم·م)':'Soil resistivity (Ω·m)','طول القضيب (م)':'Rod length (m)','قطر القضيب (م)':'Rod diameter (m)','تيار القصر الأقصى (عند أطراف المحول)':'Maximum fault current (at transformer terminals)','مقاومة القضيب الواحد':'Single rod resistance',
+'قيمة عليا تقريبية تهمل معاوقة المصدر والكابل، تُستخدم لاختيار قدرة قطع القاطع، وتُحسب بدقة وفق IEC 60909.':'Approximate upper value ignoring source and cable impedance; used to choose breaker breaking capacity, and calculated precisely per IEC 60909.',
+'معادلة Dwight لقضيب عمودي واحد. تتغير مقاومية التربة مع الفصل والرطوبة، وتُقاس ميدانياً.':'Dwight formula for a single vertical rod. Soil resistivity varies with season and moisture and is measured on site.',
+'نسخة Pro':'Pro version','أعلن معنا':'Advertise with us'
 });
 let lang='ar';try{lang=localStorage.getItem('lang')||'ar'}catch(e){}
 const TOK=[[/عدد كابلات /g,'No. of '],[/أكبر من /g,'Over '],[/مم²/g,'mm²'],[/مم/g,'mm'],[/(\d) م$/,'$1 m'],[/\(الحد /g,'(limit ']];

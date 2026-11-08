@@ -1,5 +1,5 @@
 import {fill,tempFactor,nextSeq,cableCheck,maxLength,peSize} from './calc.js';
-import {TOOLS} from './tools.js';
+import {TOOLS,CABLE_TOOL} from './tools.js';
 const run=(id,v)=>TOOLS.find(x=>x.id===id).R(v,[]);
 const eq=(a,b,m='')=>{if(a!==b)throw new Error(`${m} expected ${b}, got ${a}`)};
 const near=(a,b,tol,m='')=>{if(!(Math.abs(a-b)<=tol))throw new Error(`${m} expected ${b}±${tol}, got ${a}`)};
@@ -31,4 +31,7 @@ export const tests=[
  ['tool battery: (0.5·24+2·0.5)·1.25 = 16.3 Ah',()=>near(parseFloat(run('bat',{a:.5,t:24,b:2,m:30,k:1.25})[0][1]),16.25,.1)],
  ['tool pfc: 100kW 0.8→0.95 = 42.1 kVAr',()=>near(parseFloat(run('pfc',{P:100,a:.8,b:.95})[0][1]),42.1,.1)],
  ['tool fill: 12×2.5mm² in 20mm exceeds 40%',()=>eq(run('fill',{c:20,'n1.5':0,'n2.5':12,'n4':0,'n6':0,'n10':0,'n16':0})[1][1].startsWith('✘'),true)],
+ ['tool isc: 630kVA/400V/4% = 22.7 kA',()=>near(parseFloat(run('isc',{S:630,U:400,uk:4})[0][1]),22.7,.05)],
+ ['tool earth: 100 Ω·m, 3 m, 16 mm rod = 33.5 Ω',()=>near(parseFloat(run('earth',{rho:100,L:3,d:.016})[0][1]),33.5,.1)],
+ ['cable page tool: 20A/50m baseline → 6 mm², 20 A',()=>{const r=CABLE_TOOL.R({ph:1,I:20,V:230,L:50,pf:.9,mx:3,mat:'Cu',ins:'PVC',meth:'B1',amb:30,g:1,isc:1,tt:.1},[]);eq(r[0][1],'6 مم²');eq(r[1][1],'20 A')}],
 ];
